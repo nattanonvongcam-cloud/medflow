@@ -11,6 +11,9 @@ import {
 } from "./mock-data.js";
 import { renderPlaceholderPage } from "./pages/placeholder.js";
 import { renderAdminDashboard } from "./pages/dashboard.js";
+import { renderDoctorDashboard } from "./pages/doctor-dashboard.js";
+import { renderReceptionDashboard } from "./pages/reception-dashboard.js";
+import { renderPharmacyDashboard } from "./pages/pharmacy-dashboard.js";
 
 let activeItemId = "doctor-dashboard";
 let activeParentId = "dashboard";
@@ -265,6 +268,9 @@ function toggleSection(sectionId) {
 /** Nav item ids that render a full page module instead of the placeholder. */
 const PAGE_RENDERERS = {
   "admin-dashboard": () => renderAdminDashboard(),
+  "doctor-dashboard": () => renderDoctorDashboard(),
+  "reception-dashboard": () => renderReceptionDashboard(),
+  "pharmacy-dashboard": () => renderPharmacyDashboard(),
 };
 
 /**

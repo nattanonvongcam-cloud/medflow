@@ -170,6 +170,369 @@ export const adminDashboardData = {
   patientQueue: priorityPatientQueue,
 };
 
+/** ─────────────────────────────────────────────────────────────
+    DOCTOR DASHBOARD
+    ───────────────────────────────────────────────────────────── */
+
+/** Doctor Dashboard — KPI summary cards */
+export const doctorKpis = [
+  {
+    id: "todays-appointments",
+    label: "Today's Appointments",
+    value: 12,
+    trend: { direction: "up", percent: 8.5, period: "vs yesterday" },
+    icon: "calendar",
+    iconTone: "info",
+  },
+  {
+    id: "assigned-patients",
+    label: "Assigned Patients",
+    value: 47,
+    trend: { direction: "up", percent: 3.2, period: "vs last week" },
+    icon: "users",
+    iconTone: "accent",
+  },
+  {
+    id: "pending-results",
+    label: "Pending Results",
+    value: 8,
+    trend: { direction: "down", percent: 15.0, period: "vs last week" },
+    icon: "fileText",
+    iconTone: "warning",
+  },
+  {
+    id: "completed-today",
+    label: "Completed Today",
+    value: 9,
+    trend: { direction: "up", percent: 22.5, period: "vs average" },
+    icon: "sparkles",
+    iconTone: "success",
+  },
+];
+
+/** Doctor Dashboard — today's appointment schedule */
+export const doctorAppointments = [
+  {
+    id: "apt_001",
+    patientId: "pt_001",
+    patientName: "Elena Vasquez",
+    time: "09:00 AM",
+    duration: "30 min",
+    room: "Exam-01",
+    status: "completed",
+    lastUpdated: "2 hours ago",
+  },
+  {
+    id: "apt_002",
+    patientId: "pt_002",
+    patientName: "James Okafor",
+    time: "09:45 AM",
+    duration: "30 min",
+    room: "Exam-02",
+    status: "in-progress",
+    lastUpdated: "now",
+  },
+  {
+    id: "apt_003",
+    patientId: "pt_003",
+    patientName: "Maria Chen",
+    time: "10:30 AM",
+    duration: "45 min",
+    room: "Exam-03",
+    status: "scheduled",
+    lastUpdated: "in 15 min",
+  },
+  {
+    id: "apt_004",
+    patientId: "pt_004",
+    patientName: "Robert Klein",
+    time: "11:30 AM",
+    duration: "30 min",
+    room: "Exam-01",
+    status: "scheduled",
+    lastUpdated: "in 1h 15m",
+  },
+  {
+    id: "apt_005",
+    patientId: "pt_005",
+    patientName: "Aisha Rahman",
+    time: "01:00 PM",
+    duration: "60 min",
+    room: "Exam-04",
+    status: "scheduled",
+    lastUpdated: "in 3h 45m",
+  },
+];
+
+/** Doctor Dashboard — pending results and alerts */
+export const doctorPendingResults = [
+  { id: "res_001", patientName: "Marcus Johnson", testType: "Blood Work", priority: "critical", submittedAt: "4 hours ago" },
+  { id: "res_002", patientName: "Sophia Martinez", testType: "ECG Analysis", priority: "high", submittedAt: "2 hours ago" },
+  { id: "res_003", patientName: "David Kim", testType: "Ultrasound Report", priority: "normal", submittedAt: "30 min ago" },
+  { id: "res_004", patientName: "Lisa Wong", testType: "Lab Results", priority: "normal", submittedAt: "15 min ago" },
+];
+
+export const doctorDashboardData = {
+  kpis: doctorKpis,
+  appointments: doctorAppointments,
+  pendingResults: doctorPendingResults,
+};
+
+/** ─────────────────────────────────────────────────────────────
+    RECEPTION DASHBOARD
+    ───────────────────────────────────────────────────────────── */
+
+/** Reception Dashboard — KPI summary cards */
+export const receptionKpis = [
+  {
+    id: "check-in-queue",
+    label: "Check-In Queue",
+    value: 7,
+    trend: { direction: "down", percent: 18.3, period: "vs 1h ago" },
+    icon: "calendar",
+    iconTone: "critical",
+  },
+  {
+    id: "todays-appointments",
+    label: "Today's Appointments",
+    value: 36,
+    trend: { direction: "up", percent: 5.0, period: "vs yesterday" },
+    icon: "calendar",
+    iconTone: "info",
+  },
+  {
+    id: "waiting-patients",
+    label: "Waiting Patients",
+    value: 14,
+    trend: { direction: "up", percent: 12.0, period: "vs average" },
+    icon: "users",
+    iconTone: "warning",
+  },
+  {
+    id: "in-room-count",
+    label: "In-Room",
+    value: 8,
+    trend: { direction: "up", percent: 6.7, period: "vs average" },
+    icon: "bed",
+    iconTone: "success",
+  },
+];
+
+/** Reception Dashboard — check-in queue */
+export const receptionCheckInQueue = [
+  {
+    id: "checkin_001",
+    patientId: "pt_006",
+    patientName: "Thomas Wright",
+    checkInTime: "08:45 AM",
+    appointmentTime: "09:00 AM",
+    appointmentType: "Follow-up",
+    status: "pending",
+  },
+  {
+    id: "checkin_002",
+    patientId: "pt_007",
+    patientName: "Nina Okonkwo",
+    checkInTime: "08:50 AM",
+    appointmentTime: "09:15 AM",
+    appointmentType: "Initial",
+    status: "pending",
+  },
+  {
+    id: "checkin_003",
+    patientId: "pt_008",
+    patientName: "Carlos Ruiz",
+    checkInTime: "08:55 AM",
+    appointmentTime: "09:30 AM",
+    appointmentType: "Checkup",
+    status: "pending",
+  },
+  {
+    id: "checkin_004",
+    patientId: "pt_009",
+    patientName: "Sophie Laurent",
+    checkInTime: "09:02 AM",
+    appointmentTime: "09:45 AM",
+    appointmentType: "Follow-up",
+    status: "checked-in",
+  },
+  {
+    id: "checkin_005",
+    patientId: "pt_010",
+    patientName: "Ahmed Hassan",
+    checkInTime: "09:08 AM",
+    appointmentTime: "10:00 AM",
+    appointmentType: "Consultation",
+    status: "checked-in",
+  },
+];
+
+/** Reception Dashboard — appointment status breakdown */
+export const receptionAppointmentStatus = [
+  { id: "registered", label: "Registered", value: 12, color: "var(--color-info)" },
+  { id: "waiting", label: "Waiting", value: 14, color: "var(--color-warning)" },
+  { id: "in-room", label: "In-Room", value: 8, color: "var(--color-accent)" },
+  { id: "completed", label: "Completed", value: 2, color: "var(--color-success)" },
+];
+
+export const receptionDashboardData = {
+  kpis: receptionKpis,
+  checkInQueue: receptionCheckInQueue,
+  appointmentStatus: receptionAppointmentStatus,
+};
+
+/** ─────────────────────────────────────────────────────────────
+    PHARMACY DASHBOARD
+    ───────────────────────────────────────────────────────────── */
+
+/** Pharmacy Dashboard — KPI summary cards */
+export const pharmacyKpis = [
+  {
+    id: "prescription-queue",
+    label: "Prescription Queue",
+    value: 12,
+    trend: { direction: "down", percent: 25.0, period: "vs 1h ago" },
+    icon: "fileText",
+    iconTone: "accent",
+  },
+  {
+    id: "low-stock-alerts",
+    label: "Low Stock Alerts",
+    value: 5,
+    trend: { direction: "up", percent: 16.7, period: "vs yesterday" },
+    icon: "alertTriangle",
+    iconTone: "critical",
+  },
+  {
+    id: "dispensed-today",
+    label: "Dispensed Today",
+    value: 67,
+    trend: { direction: "up", percent: 18.3, period: "vs average" },
+    icon: "sparkles",
+    iconTone: "success",
+  },
+  {
+    id: "pending-verification",
+    label: "Pending Verification",
+    value: 3,
+    trend: { direction: "down", percent: 40.0, period: "vs average" },
+    icon: "users",
+    iconTone: "info",
+  },
+];
+
+/** Pharmacy Dashboard — prescription queue */
+export const prescriptions = [
+  {
+    id: "prx_001",
+    patientId: "pt_001",
+    patientName: "Elena Vasquez",
+    medicationId: "med_001",
+    medicationName: "Metoprolol",
+    quantity: 30,
+    status: "pending",
+    createdAt: "10:15 AM",
+  },
+  {
+    id: "prx_002",
+    patientId: "pt_002",
+    patientName: "James Okafor",
+    medicationId: "med_002",
+    medicationName: "Lisinopril",
+    quantity: 60,
+    status: "pending",
+    createdAt: "10:22 AM",
+  },
+  {
+    id: "prx_003",
+    patientId: "pt_003",
+    patientName: "Maria Chen",
+    medicationId: "med_003",
+    medicationName: "Amoxicillin",
+    quantity: 20,
+    status: "verified",
+    createdAt: "10:05 AM",
+  },
+  {
+    id: "prx_004",
+    patientId: "pt_004",
+    patientName: "Robert Klein",
+    medicationId: "med_004",
+    medicationName: "Atorvastatin",
+    quantity: 90,
+    status: "dispensed",
+    createdAt: "09:45 AM",
+  },
+  {
+    id: "prx_005",
+    patientId: "pt_005",
+    patientName: "Aisha Rahman",
+    medicationId: "med_005",
+    medicationName: "Insulin Glargine",
+    quantity: 10,
+    status: "dispensed",
+    createdAt: "09:30 AM",
+  },
+];
+
+/** Pharmacy Dashboard — medication inventory with low-stock alerts */
+export const medications = [
+  {
+    id: "med_001",
+    name: "Metoprolol 50mg",
+    currentStock: 45,
+    lowStockThreshold: 50,
+    unit: "tablets",
+    status: "low-stock",
+  },
+  {
+    id: "med_002",
+    name: "Lisinopril 10mg",
+    currentStock: 120,
+    lowStockThreshold: 100,
+    unit: "tablets",
+    status: "ok",
+  },
+  {
+    id: "med_003",
+    name: "Amoxicillin 500mg",
+    currentStock: 23,
+    lowStockThreshold: 40,
+    unit: "capsules",
+    status: "low-stock",
+  },
+  {
+    id: "med_004",
+    name: "Atorvastatin 20mg",
+    currentStock: 15,
+    lowStockThreshold: 60,
+    unit: "tablets",
+    status: "low-stock",
+  },
+  {
+    id: "med_005",
+    name: "Insulin Glargine",
+    currentStock: 8,
+    lowStockThreshold: 20,
+    unit: "vials",
+    status: "critical",
+  },
+  {
+    id: "med_006",
+    name: "Omeprazole 20mg",
+    currentStock: 200,
+    lowStockThreshold: 80,
+    unit: "capsules",
+    status: "ok",
+  },
+];
+
+export const pharmacyDashboardData = {
+  kpis: pharmacyKpis,
+  prescriptions: prescriptions,
+  medications: medications,
+};
+
 export const navSections = [
   {
     id: "overview",

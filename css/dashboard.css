@@ -81,6 +81,11 @@
   color: var(--color-success);
 }
 
+.kpi-card__icon--warning {
+  background: var(--color-warning-muted);
+  color: var(--color-warning);
+}
+
 .kpi-card__icon--critical {
   background: var(--color-critical-muted);
   color: var(--color-critical);
@@ -363,4 +368,105 @@
   .donut-chart__svg-wrap {
     margin: 0 auto;
   }
+}
+
+/* ── Dashboard section & grid layout (Phase 2 multi-dashboard support) ── */
+.dashboard-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.dashboard-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.dashboard-grid--2col {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-grid--2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Generic table card & table styles ── */
+.table-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table-card__title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.table-card__body {
+  overflow-x: auto;
+  margin: 0 calc(-1 * var(--card-padding));
+  padding: 0 var(--card-padding);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.table-head {
+  position: sticky;
+  top: 0;
+  background: var(--color-bg-elevated);
+  z-index: 10;
+}
+
+.table-row {
+  transition: background-color var(--transition-fast);
+}
+
+.table-row--header {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table-row:not(.table-row--header):hover {
+  background: var(--color-bg-hover);
+}
+
+.table-row:not(.table-row--header):last-child .table-cell {
+  border-bottom: none;
+}
+
+.table-cell {
+  padding: var(--space-4);
+  text-align: left;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.table-cell--header {
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.table-cell--secondary {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
 }
