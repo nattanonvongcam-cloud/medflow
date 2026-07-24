@@ -198,7 +198,7 @@ export function renderCustomSelect({ id, name, label, options, selected, inputAt
       <input type="hidden" ${name ? `name="${name}"` : ""} value="${selectedValue}" data-custom-select-input ${inputAttributesMarkup} />
       <button
         type="button"
-        class="custom-select__trigger input"
+        class="custom-select__trigger"
         id="${id}"
         aria-haspopup="listbox"
         aria-expanded="false"

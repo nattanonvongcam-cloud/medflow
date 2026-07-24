@@ -219,25 +219,31 @@
 
 .custom-select {
   position: relative;
-  width: 100%;
+  flex: 1;
+  min-width: 0;
+  align-self: stretch;
+  display: flex;
 }
 
 .custom-select__trigger {
+  flex: 1;
+  min-width: 0;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-2);
   text-align: left;
-  padding: 0 var(--space-4);
-}
-
-.custom-select__trigger:focus-visible {
+  background: transparent;
+  border: none;
   outline: none;
-  border-color: rgba(16, 185, 129, 0.4);
-  box-shadow: 0 0 0 3px var(--color-accent-subtle);
+  padding: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  cursor: pointer;
 }
 
-.custom-select--open .custom-select__trigger {
+.input:has(.custom-select--open) {
   border-color: rgba(16, 185, 129, 0.4);
   box-shadow: 0 0 0 3px var(--color-accent-subtle);
 }
