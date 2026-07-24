@@ -547,8 +547,8 @@ export const navSections = [
         expandable: true,
         expanded: true,
         children: [
-          { id: "admin-dashboard", label: "Admin Dashboard" },
-          { id: "doctor-dashboard", label: "Doctor Dashboard", active: true },
+          { id: "admin-dashboard", label: "Admin Dashboard", active: true },
+          { id: "doctor-dashboard", label: "Doctor Dashboard" },
           { id: "reception-dashboard", label: "Reception Dashboard" },
           { id: "pharmacy-dashboard", label: "Pharmacy Dashboard" },
         ],

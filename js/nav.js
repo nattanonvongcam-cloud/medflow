@@ -15,7 +15,7 @@ import { renderDoctorDashboard } from "./pages/doctor-dashboard.js";
 import { renderReceptionDashboard } from "./pages/reception-dashboard.js";
 import { renderPharmacyDashboard } from "./pages/pharmacy-dashboard.js";
 
-let activeItemId = "doctor-dashboard";
+let activeItemId = "admin-dashboard";
 let activeParentId = "dashboard";
 
 /**
