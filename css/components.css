@@ -231,6 +231,17 @@
   padding: 0 var(--space-4);
 }
 
+.custom-select__trigger:focus-visible {
+  outline: none;
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 0 3px var(--color-accent-subtle);
+}
+
+.custom-select--open .custom-select__trigger {
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 0 3px var(--color-accent-subtle);
+}
+
 .custom-select__value {
   padding: 0;
 }

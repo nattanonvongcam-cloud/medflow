@@ -35,11 +35,20 @@ function renderPatientRow(patient) {
         <td class="table-cell">
           <label class="input input--inline">
             <span class="sr-only">Status for ${patient.name}</span>
-            <select class="input__field patient-status-select" data-patient-status-select data-patient-id="${patient.id}">
-              <option value="stable" ${patient.status === "stable" ? "selected" : ""}>Stable</option>
-              <option value="monitoring" ${patient.status === "monitoring" ? "selected" : ""}>Monitoring</option>
-              <option value="critical" ${patient.status === "critical" ? "selected" : ""}>Critical</option>
-            </select>
+            ${renderCustomSelect({
+              id: `status-select-${patient.id}`,
+              label: `Status for ${patient.name}`,
+              options: [
+                { label: "Stable", value: "stable" },
+                { label: "Monitoring", value: "monitoring" },
+                { label: "Critical", value: "critical" },
+              ],
+              selected: patient.status,
+              inputAttributes: {
+                "data-patient-status-select": "",
+                "data-patient-id": patient.id,
+              },
+            })}
           </label>
         </td>
         <td class="table-cell">${patient.room}</td>
@@ -172,6 +181,7 @@ async function loadPatients(query = "") {
   }
 
   countLabel.textContent = `${patients.length} patients`;
+  initCustomSelects(tableBody);
 }
 
 function normalizePatientId(name) {
@@ -203,7 +213,7 @@ async function handlePatientFormSubmit(event) {
 
 async function handlePatientStatusChange(event) {
   const target = event.target;
-  if (!(target instanceof HTMLSelectElement) || !target.matches("[data-patient-status-select]")) {
+  if (!target.matches("[data-patient-status-select]")) {
     return;
   }
 

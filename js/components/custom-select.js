@@ -165,10 +165,15 @@ function bindCustomSelect(selectRoot) {
   syncSelection(selectRoot);
 }
 
-export function renderCustomSelect({ id, name, label, options, selected }) {
+export function renderCustomSelect({ id, name, label, options, selected, inputAttributes = {} }) {
   const normalizedOptions = Array.isArray(options) ? options : [];
   const selectedValue = normalizedOptions.some((option) => option.value === selected) ? selected : normalizedOptions[0]?.value || "";
   const selectedOption = normalizedOptions.find((option) => option.value === selectedValue) || normalizedOptions[0] || { label: "", value: "" };
+
+  const inputAttributesMarkup = Object.entries(inputAttributes)
+    .filter(([, value]) => value !== undefined && value !== null)
+    .map(([key, value]) => `${key}="${String(value)}"`)
+    .join(" ");
 
   const optionMarkup = normalizedOptions
     .map((option) => {
@@ -190,7 +195,7 @@ export function renderCustomSelect({ id, name, label, options, selected }) {
 
   return `
     <div class="custom-select" data-custom-select>
-      <input type="hidden" name="${name}" value="${selectedValue}" data-custom-select-input />
+      <input type="hidden" ${name ? `name="${name}"` : ""} value="${selectedValue}" data-custom-select-input ${inputAttributesMarkup} />
       <button
         type="button"
         class="custom-select__trigger input"
