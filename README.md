@@ -1,71 +1,82 @@
 # MedFlow
 
-A **Clinic Management System** dashboard built as a university Database Systems course project. MedFlow is an internal staff tool for clinic operations — not a public-facing hospital website.
+MedFlow is a clinic management UI built as a vanilla HTML, CSS, and JavaScript project. It is designed as an internal staff dashboard for hospital operations and is intentionally implemented as a static site with no frameworks or build tooling.
 
-## Phase 1 — App Shell (Current)
+## Current Status
 
-Phase 1 delivers the UI foundation only: design system, layout shell, sidebar navigation, and top bar. No dashboard content, database, or authentication yet.
+The project now includes a polished dark-theme interface with:
 
-### Tech Stack
+- An Admin Dashboard with KPI cards, charts, and a priority patient queue
+- A Patients page with a searchable patient directory table
+- Sidebar navigation for multiple dashboard views
+- Glass-style cards and updated visual polish
+
+## Tech Stack
 
 - HTML, CSS, JavaScript (vanilla)
-- No frameworks or build tools
-- Deployed on [Vercel](https://vercel.com)
+- No frameworks, no npm packages, no build tools
+- Static deployment on [Vercel](https://vercel.com)
 
-### Folder Structure
+## Project Structure
 
-```
+```text
 MedFlow/
-├── index.html              # Entry point
+├── index.html                # Entry point
 ├── css/
-│   ├── variables.css       # Design tokens (colors, typography, spacing)
-│   ├── base.css            # Reset and typography defaults
-│   ├── components.css      # Reusable UI components
-│   └── layout.css          # App shell layout (sidebar, topbar, content)
+│   ├── variables.css         # Design tokens and theme values
+│   ├── base.css              # Reset and base typography
+│   ├── components.css        # Reusable UI components
+│   └── layout.css            # App shell layout
 ├── js/
-│   ├── app.js              # App initialization and shell mounting
-│   ├── nav.js              # Sidebar rendering and navigation logic
-│   └── mock-data.js        # Mock data simulating future API responses
-├── assets/                 # Icons and images (reserved)
+│   ├── app.js                # App initialization
+│   ├── nav.js                # Sidebar rendering and page switching
+│   ├── mock-data.js          # Mock data for dashboards and patients
+│   └── pages/
+│       ├── dashboard.js
+│       ├── doctor-dashboard.js
+│       ├── reception-dashboard.js
+│       ├── pharmacy-dashboard.js
+│       └── patients.js
+├── assets/                   # Reserved for icons and images
 └── README.md
 ```
 
-### Getting Started
+## Getting Started
 
-Serve locally with any static file server:
+Run the site locally with any static file server:
 
 ```bash
 # Python
-python -m http.server 3000
+python -m http.server 8000
 
-# Node (npx)
-npx serve .
+# or
+py -m http.server 8000
 ```
 
-Open `http://localhost:3000` in your browser.
+Then open http://localhost:8000 in your browser.
 
-### Design Direction
+## Design Direction
 
-- Premium SaaS aesthetic (Linear, Vercel, Stripe-inspired)
-- Dark theme with emerald green accent
-- Layered backgrounds, rounded cards, soft shadows
-- Desktop-first, responsive down to tablet/mobile
+- Premium SaaS-inspired dark UI
+- Emerald green accent color
+- Rounded glass-style cards and layered surfaces
+- Desktop-first layout with responsive behavior
 
 ## Roadmap
 
 | Phase | Scope |
 |-------|-------|
-| **1** | App shell, design system, navigation *(current)* |
-| **2** | Dashboard content — KPIs, charts, tables |
-| **3** | Database, ER diagrams, SQL, CRUD |
-| **4** | Authentication and role-based access (Admin, Doctor, Receptionist, Patient) |
+| **1** | App shell, design system, navigation |
+| **2** | Dashboard content, patient directory, and UI polish |
+| **3** | Data integration, ER diagrams, SQL, and CRUD workflows *(in progress)* |
+| **4** | Authentication and role-based access |
 
 ## Architecture Notes
 
-- **Mock data first:** All dynamic content lives in `js/mock-data.js`. When the backend is ready, replace exports with `fetch()` calls — the rendering layer stays the same.
-- **Component tokens:** CSS custom properties in `variables.css` drive the entire design system. Extend tokens before adding one-off styles.
-- **Navigation:** `nav.js` handles section collapse, expandable sub-menus, and active states. Page routing can be added in Phase 2 via hash or history API.
+- Mock data lives in js/mock-data.js and is used to render the current UI.
+- Page rendering follows the existing template-based pattern in the js/pages modules.
+- Navigation is handled in js/nav.js with simple client-side page swaps.
 
 ## License
 
-University course project — internal use.
+University course project — internal use only.

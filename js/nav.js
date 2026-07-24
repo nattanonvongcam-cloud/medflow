@@ -10,11 +10,11 @@ import {
   clinic,
 } from "./mock-data.js";
 import { renderPlaceholderPage } from "./pages/placeholder.js";
-import { renderAdminDashboard } from "./pages/dashboard.js";
-import { renderDoctorDashboard } from "./pages/doctor-dashboard.js";
-import { renderReceptionDashboard } from "./pages/reception-dashboard.js";
-import { renderPharmacyDashboard } from "./pages/pharmacy-dashboard.js";
-import { renderPatientsPage } from "./pages/patients.js";
+import { renderAdminDashboard, initAdminDashboard } from "./pages/dashboard.js";
+import { renderDoctorDashboard, initDoctorDashboard } from "./pages/doctor-dashboard.js";
+import { renderReceptionDashboard, initReceptionDashboard } from "./pages/reception-dashboard.js";
+import { renderPharmacyDashboard, initPharmacyDashboard } from "./pages/pharmacy-dashboard.js";
+import { renderPatientsPage, initPatientsPage } from "./pages/patients.js";
 
 let activeItemId = "admin-dashboard";
 let activeParentId = "dashboard";
@@ -279,25 +279,13 @@ const PAGE_RENDERERS = {
  * Swaps main content based on selected nav item.
  * @param {string} itemId
  */
-function bindPatientsSearch() {
-  const searchInput = document.querySelector("[data-patients-search]");
-  if (!searchInput) return;
-
-  const rows = Array.from(document.querySelectorAll("[data-patient-name]"));
-  if (!rows.length) return;
-
-  searchInput.addEventListener(
-    "input",
-    (event) => {
-      const query = event.target.value.trim().toLowerCase();
-      rows.forEach((row) => {
-        const name = row.dataset.patientName?.toLowerCase() || "";
-        row.style.display = name.includes(query) ? "" : "none";
-      });
-    },
-    { once: false }
-  );
-}
+const PAGE_INIT_HANDLERS = {
+  "admin-dashboard": initAdminDashboard,
+  "doctor-dashboard": initDoctorDashboard,
+  "reception-dashboard": initReceptionDashboard,
+  "pharmacy-dashboard": initPharmacyDashboard,
+  patients: initPatientsPage,
+};
 
 function updateMainContent(itemId) {
   const main = document.getElementById("main-content");
@@ -306,7 +294,7 @@ function updateMainContent(itemId) {
   const renderPage = PAGE_RENDERERS[itemId];
   if (renderPage) {
     main.outerHTML = renderPage();
-    bindPatientsSearch();
+    PAGE_INIT_HANDLERS[itemId]?.();
     return;
   }
 

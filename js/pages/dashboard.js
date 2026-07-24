@@ -5,12 +5,10 @@
 
 import {
   icons,
-  adminDashboardData,
   dashboardKpis,
   weeklyAdmissions,
-  patientStatusBreakdown,
-  priorityPatientQueue,
 } from "../mock-data.js";
+import { getPatientStatusBreakdown, getPriorityPatientQueue } from "../db/queries.js";
 
 const STATUS_BADGE_MAP = {
   critical: "badge--critical",
@@ -348,12 +346,7 @@ export function renderPriorityPatientTable(patients) {
  * @param {Array} [data.patientQueue]
  * @returns {string}
  */
-export function renderAdminDashboard(data = adminDashboardData) {
-  const kpis = data.kpis ?? dashboardKpis;
-  const admissions = data.admissions ?? weeklyAdmissions;
-  const statusBreakdown = data.statusBreakdown ?? patientStatusBreakdown;
-  const patientQueue = data.patientQueue ?? priorityPatientQueue;
-
+export function renderAdminDashboard() {
   return `
     <main class="content dashboard" id="main-content">
       <header class="dashboard__header">
@@ -361,14 +354,86 @@ export function renderAdminDashboard(data = adminDashboardData) {
         <p class="dashboard__subtitle">Real-time overview of clinic operations and patient flow</p>
       </header>
 
-      ${renderKpiRow(kpis)}
+      ${renderKpiRow(dashboardKpis)}
 
       <section class="dashboard-charts" aria-label="Charts">
-        ${renderWeeklyAdmissionsChart(admissions)}
-        ${renderPatientStatusDonut(statusBreakdown)}
+        ${renderWeeklyAdmissionsChart(weeklyAdmissions)}
+        <article class="card chart-card" id="status-breakdown-card">
+          <div class="chart-card__header">
+            <h3 class="chart-card__title">Patient Status Breakdown</h3>
+          </div>
+          <div class="chart-card__body" id="status-breakdown-chart">
+            Loading breakdown...
+          </div>
+        </article>
       </section>
 
-      ${renderPriorityPatientTable(patientQueue)}
+      <div id="priority-queue-content">
+        <article class="card dashboard-table-card">
+          <div class="dashboard-table-card__header">
+            <h3 class="dashboard-table-card__title">Priority Patient Queue</h3>
+            <span class="dashboard-table-card__count">Loading…</span>
+          </div>
+          <div class="dashboard-table-wrap">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th scope="col">Patient</th>
+                  <th scope="col">Diagnosis</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Room / Ward</th>
+                  <th scope="col">Last Updated</th>
+                </tr>
+              </thead>
+              <tbody id="priority-queue-body">
+                <tr>
+                  <td class="dashboard-table__empty" colspan="5">Loading queue...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
     </main>
   `;
+}
+
+export async function initAdminDashboard() {
+  const breakdown = await getPatientStatusBreakdown();
+  const statusSegments = breakdown.map((segment) => ({
+    id: segment.id,
+    label:
+      segment.id === "critical"
+        ? "Critical"
+        : segment.id === "monitoring"
+        ? "Monitoring"
+        : segment.id === "stable"
+        ? "Stable"
+        : segment.id,
+    value: Number(segment.value),
+    color:
+      segment.id === "critical"
+        ? "var(--color-critical)"
+        : segment.id === "monitoring"
+        ? "var(--color-warning)"
+        : segment.id === "stable"
+        ? "var(--color-success)"
+        : "var(--color-accent)",
+  }));
+
+  const breakdownContainer = document.getElementById("status-breakdown-chart");
+  if (breakdownContainer) {
+    breakdownContainer.innerHTML = renderPatientStatusDonut(statusSegments);
+  }
+
+  const queue = await getPriorityPatientQueue();
+  const queueContainer = document.getElementById("priority-queue-content");
+  if (queueContainer) {
+    queueContainer.innerHTML = renderPriorityPatientTable(
+      queue.map((patient) => ({
+        ...patient,
+        lastUpdated: patient.last_updated || patient.lastUpdated || "",
+      }))
+    );
+  }
 }

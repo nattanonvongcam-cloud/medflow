@@ -3,13 +3,8 @@
  * Renders KPI cards, check-in queue, and appointment status from mock data.
  */
 
-import {
-  icons,
-  receptionDashboardData,
-  receptionKpis,
-  receptionCheckInQueue,
-  receptionAppointmentStatus,
-} from "../mock-data.js";
+import { icons, receptionKpis } from "../mock-data.js";
+import { getCheckInQueue, getReceptionAppointmentStatus } from "../db/queries.js";
 
 const STATUS_BADGE_MAP = {
   pending: "badge--warning",
@@ -265,10 +260,42 @@ export function renderReceptionDashboard() {
 
       <section class="dashboard-section">
         <div class="dashboard-grid dashboard-grid--2col">
-          ${renderCheckInQueue(receptionCheckInQueue)}
-          ${renderAppointmentStatusDonut(receptionAppointmentStatus)}
+          <div id="reception-check-in-queue">${renderCheckInQueue([])}</div>
+          <div id="reception-appointment-status">${renderAppointmentStatusDonut([])}</div>
         </div>
       </section>
     </main>
   `;
+}
+
+export async function initReceptionDashboard() {
+  const queue = await getCheckInQueue();
+  const status = await getReceptionAppointmentStatus();
+
+  const queueContainer = document.getElementById("reception-check-in-queue");
+  if (queueContainer) {
+    queueContainer.innerHTML = renderCheckInQueue(queue);
+  }
+
+  const statusContainer = document.getElementById("reception-appointment-status");
+  if (statusContainer) {
+    statusContainer.innerHTML = renderAppointmentStatusDonut(
+      status.map((segment) => ({
+        ...segment,
+        label: segment.id,
+        color:
+          segment.id === "waiting"
+            ? "var(--color-warning)"
+            : segment.id === "checked-in"
+            ? "var(--color-success)"
+            : segment.id === "registered"
+            ? "var(--color-info)"
+            : segment.id === "in-room"
+            ? "var(--color-accent)"
+            : segment.id === "completed"
+            ? "var(--color-success)"
+            : "var(--color-neutral)",
+      }))
+    );
+  }
 }

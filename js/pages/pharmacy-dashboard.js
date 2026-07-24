@@ -3,13 +3,8 @@
  * Renders KPI cards, prescription queue, and low-stock alerts from mock data.
  */
 
-import {
-  icons,
-  pharmacyDashboardData,
-  pharmacyKpis,
-  prescriptions,
-  medications,
-} from "../mock-data.js";
+import { icons, pharmacyKpis } from "../mock-data.js";
+import { getPrescriptionQueue, getLowStockMedications } from "../db/queries.js";
 
 const STATUS_BADGE_MAP = {
   pending: "badge--warning",
@@ -197,10 +192,25 @@ export function renderPharmacyDashboard() {
 
       <section class="dashboard-section">
         <div class="dashboard-grid dashboard-grid--2col">
-          ${renderPrescriptionQueue(prescriptions)}
-          ${renderLowStockAlerts(medications)}
+          <div id="pharmacy-prescription-queue">${renderPrescriptionQueue([])}</div>
+          <div id="pharmacy-low-stock-alerts">${renderLowStockAlerts([])}</div>
         </div>
       </section>
     </main>
   `;
+}
+
+export async function initPharmacyDashboard() {
+  const prescriptions = await getPrescriptionQueue();
+  const lowStock = await getLowStockMedications();
+
+  const prescriptionContainer = document.getElementById("pharmacy-prescription-queue");
+  if (prescriptionContainer) {
+    prescriptionContainer.innerHTML = renderPrescriptionQueue(prescriptions);
+  }
+
+  const lowStockContainer = document.getElementById("pharmacy-low-stock-alerts");
+  if (lowStockContainer) {
+    lowStockContainer.innerHTML = renderLowStockAlerts(lowStock);
+  }
 }
