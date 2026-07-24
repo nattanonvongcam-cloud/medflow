@@ -4,6 +4,7 @@
  */
 
 import { icons } from "../mock-data.js";
+import { renderCustomSelect, initCustomSelects } from "../components/custom-select.js";
 import { getAllPatients, searchPatients, insertPatient, updatePatientStatus } from "../db/queries.js";
 
 const STATUS_BADGE_MAP = {
@@ -105,11 +106,17 @@ export function renderPatientsPage() {
             </label>
             <label class="input">
               <span class="input__label">Gender</span>
-              <select class="input__field" name="gender" required>
-                <option value="Female">Female</option>
-                <option value="Male">Male</option>
-                <option value="Other">Other</option>
-              </select>
+              ${renderCustomSelect({
+                id: "patient-gender",
+                name: "gender",
+                label: "Gender",
+                options: [
+                  { label: "Female", value: "Female" },
+                  { label: "Male", value: "Male" },
+                  { label: "Other", value: "Other" },
+                ],
+                selected: "Female",
+              })}
             </label>
             <label class="input input--full-width">
               <span class="input__label">Diagnosis</span>
@@ -121,11 +128,17 @@ export function renderPatientsPage() {
             </label>
             <label class="input">
               <span class="input__label">Status</span>
-              <select class="input__field" name="status" required>
-                <option value="stable">Stable</option>
-                <option value="monitoring">Monitoring</option>
-                <option value="critical">Critical</option>
-              </select>
+              ${renderCustomSelect({
+                id: "patient-status",
+                name: "status",
+                label: "Status",
+                options: [
+                  { label: "Stable", value: "stable" },
+                  { label: "Monitoring", value: "monitoring" },
+                  { label: "Critical", value: "critical" },
+                ],
+                selected: "stable",
+              })}
             </label>
             <label class="input input--full-width">
               <span class="input__label">Room</span>
@@ -215,6 +228,7 @@ export async function initPatientsPage() {
 
   if (form) {
     form.addEventListener("submit", handlePatientFormSubmit);
+    initCustomSelects(form);
   }
 
   if (tableBody) {

@@ -198,16 +198,6 @@
   color: var(--color-text-primary);
 }
 
-.input__field option {
-  background-color: var(--color-bg-elevated);
-  color: var(--color-text-primary);
-}
-
-.input__field option:checked,
-.input__field option:hover {
-  background-color: var(--color-bg-hover);
-}
-
 .input__field::placeholder {
   color: var(--color-text-muted);
 }
@@ -225,6 +215,74 @@
   background: var(--color-bg-elevated);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
+}
+
+.custom-select {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  padding: 0 var(--space-4);
+}
+
+.custom-select__value {
+  padding: 0;
+}
+
+.custom-select__panel {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  left: 0;
+  right: 0;
+  z-index: 60;
+  max-height: 14rem;
+  overflow-y: auto;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-1);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+.custom-select__panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-select__panel::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: var(--radius-full);
+}
+
+.custom-select__option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.custom-select__option:hover,
+.custom-select__option--highlighted {
+  background: var(--color-bg-hover);
+  color: var(--color-text-primary);
+}
+
+.custom-select__option--selected {
+  color: var(--color-accent);
+  background: var(--color-bg-active);
 }
 
 /* ── Sidebar nav item ── */
