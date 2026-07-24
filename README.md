@@ -30,7 +30,11 @@ MedFlow/
 ├── js/
 │   ├── app.js                # App initialization
 │   ├── nav.js                # Sidebar rendering and page switching
-│   ├── mock-data.js          # Mock data for dashboards and patients
+│   ├── mock-data.js          # Seed data used by the SQL database at startup
+│   ├── db/
+│   │   ├── db.js             # In-memory sql.js database initialization and seeding
+│   │   ├── queries.js        # SQL-backed data access functions for the UI
+│   │   └── schema.sql        # Database schema for seeded tables
 │   └── pages/
 │       ├── dashboard.js
 │       ├── doctor-dashboard.js
@@ -68,14 +72,15 @@ Then open http://localhost:8000 in your browser.
 |-------|-------|
 | **1** | App shell, design system, navigation |
 | **2** | Dashboard content, patient directory, and UI polish |
-| **3** | Data integration, ER diagrams, SQL, and CRUD workflows *(in progress)* |
+| **3** | Data integration, ER diagrams, SQL, and CRUD workflows **(complete)** |
 | **4** | Authentication and role-based access |
 
 ## Architecture Notes
 
-- Mock data lives in js/mock-data.js and is used to render the current UI.
-- Page rendering follows the existing template-based pattern in the js/pages modules.
-- Navigation is handled in js/nav.js with simple client-side page swaps.
+- Data now flows through `js/db/queries.js`, which executes SQL against an in-memory `sql.js` database seeded once from `js/mock-data.js` in `js/db/db.js`.
+- Dashboard and Patients page content is rendered from query results rather than from static dashboard mock arrays.
+- Page rendering follows the existing template-based pattern in the `js/pages` modules.
+- Navigation is handled in `js/nav.js` with simple client-side page swaps.
 
 ## License
 
