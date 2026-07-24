@@ -1,4 +1,3 @@
-import initSqlJs from "https://cdn.jsdelivr.net/npm/sql.js@1.8.0/dist/sql-wasm.js";
 import {
   allPatients,
   doctorAppointments,
