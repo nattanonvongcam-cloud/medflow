@@ -198,6 +198,16 @@
   color: var(--color-text-primary);
 }
 
+.input__field option {
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+}
+
+.input__field option:checked,
+.input__field option:hover {
+  background-color: var(--color-bg-hover);
+}
+
 .input__field::placeholder {
   color: var(--color-text-muted);
 }
