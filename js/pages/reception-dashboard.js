@@ -3,8 +3,8 @@
  * Renders KPI cards, check-in queue, and appointment status from mock data.
  */
 
-import { icons, receptionKpis } from "../mock-data.js";
-import { getCheckInQueue, getReceptionAppointmentStatus } from "../db/queries.js";
+import { icons } from "../mock-data.js";
+import { getCheckInQueue, getReceptionAppointmentStatus, getReceptionKpis } from "../db/queries.js";
 
 const STATUS_BADGE_MAP = {
   pending: "badge--warning",
@@ -255,7 +255,7 @@ export function renderReceptionDashboard() {
   return `
     <main class="content" id="main-content">
       <section class="dashboard-section">
-        ${renderKpiRow(receptionKpis)}
+        <div id="reception-kpi-row">${renderKpiRow([])}</div>
       </section>
 
       <section class="dashboard-section">
@@ -269,6 +269,13 @@ export function renderReceptionDashboard() {
 }
 
 export async function initReceptionDashboard() {
+  // Load KPI cards
+  const kpis = await getReceptionKpis();
+  const kpiContainer = document.getElementById("reception-kpi-row");
+  if (kpiContainer) {
+    kpiContainer.innerHTML = renderKpiRow(kpis);
+  }
+
   const queue = await getCheckInQueue();
   const status = await getReceptionAppointmentStatus();
 

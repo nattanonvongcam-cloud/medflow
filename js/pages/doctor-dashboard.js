@@ -3,8 +3,8 @@
  * Renders KPI cards, appointment schedule, and pending results from mock data.
  */
 
-import { icons, doctorKpis } from "../mock-data.js";
-import { getDoctorAppointments, getPendingResults } from "../db/queries.js";
+import { icons } from "../mock-data.js";
+import { getDoctorAppointments, getPendingResults, getDoctorKpis } from "../db/queries.js";
 
 const STATUS_BADGE_MAP = {
   completed: "badge--success",
@@ -182,7 +182,7 @@ export function renderDoctorDashboard() {
   return `
     <main class="content" id="main-content">
       <section class="dashboard-section">
-        ${renderKpiRow(doctorKpis)}
+        <div id="doctor-kpi-row">${renderKpiRow([])}</div>
       </section>
 
       <section class="dashboard-section">
@@ -196,6 +196,13 @@ export function renderDoctorDashboard() {
 }
 
 export async function initDoctorDashboard() {
+  // Load KPI cards
+  const kpis = await getDoctorKpis();
+  const kpiContainer = document.getElementById("doctor-kpi-row");
+  if (kpiContainer) {
+    kpiContainer.innerHTML = renderKpiRow(kpis);
+  }
+
   const appointments = await getDoctorAppointments();
   const results = await getPendingResults();
 

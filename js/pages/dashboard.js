@@ -3,12 +3,8 @@
  * Renders KPI cards, SVG charts, and priority patient table from mock data.
  */
 
-import {
-  icons,
-  dashboardKpis,
-  weeklyAdmissions,
-} from "../mock-data.js";
-import { getPatientStatusBreakdown, getPriorityPatientQueue } from "../db/queries.js";
+import { icons } from "../mock-data.js";
+import { getPatientStatusBreakdown, getPriorityPatientQueue, getAdminKpis, getWeeklyAdmissions } from "../db/queries.js";
 
 const STATUS_BADGE_MAP = {
   critical: "badge--critical",
@@ -353,11 +349,11 @@ export function renderAdminDashboard() {
         <h2 class="dashboard__title">Admin Dashboard</h2>
         <p class="dashboard__subtitle">Real-time overview of clinic operations and patient flow</p>
       </header>
-
-      ${renderKpiRow(dashboardKpis)}
-
+      
+      <div id="dashboard-kpi-row">${renderKpiRow([])}</div>
+      
       <section class="dashboard-charts" aria-label="Charts">
-        ${renderWeeklyAdmissionsChart(weeklyAdmissions)}
+        <div id="weekly-admissions-chart">Loading chart...</div>
         <article class="card chart-card" id="status-breakdown-card">
           <div class="chart-card__header">
             <h3 class="chart-card__title">Patient Status Breakdown</h3>
@@ -399,6 +395,21 @@ export function renderAdminDashboard() {
 }
 
 export async function initAdminDashboard() {
+  // Load KPI cards
+  const kpis = await getAdminKpis();
+  const kpiContainer = document.getElementById("dashboard-kpi-row");
+  if (kpiContainer) {
+    kpiContainer.innerHTML = renderKpiRow(kpis);
+  }
+
+  // Load weekly admissions chart
+  const admissionsData = await getWeeklyAdmissions();
+  const admissionsContainer = document.getElementById("weekly-admissions-chart");
+  if (admissionsContainer) {
+    admissionsContainer.innerHTML = renderWeeklyAdmissionsChart(admissionsData);
+  }
+
+  // Load status breakdown (existing behavior)
   const breakdown = await getPatientStatusBreakdown();
   const statusSegments = breakdown.map((segment) => ({
     id: segment.id,
