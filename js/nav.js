@@ -14,6 +14,7 @@ import { renderAdminDashboard } from "./pages/dashboard.js";
 import { renderDoctorDashboard } from "./pages/doctor-dashboard.js";
 import { renderReceptionDashboard } from "./pages/reception-dashboard.js";
 import { renderPharmacyDashboard } from "./pages/pharmacy-dashboard.js";
+import { renderPatientsPage } from "./pages/patients.js";
 
 let activeItemId = "admin-dashboard";
 let activeParentId = "dashboard";
@@ -271,12 +272,33 @@ const PAGE_RENDERERS = {
   "doctor-dashboard": () => renderDoctorDashboard(),
   "reception-dashboard": () => renderReceptionDashboard(),
   "pharmacy-dashboard": () => renderPharmacyDashboard(),
+  patients: () => renderPatientsPage(),
 };
 
 /**
  * Swaps main content based on selected nav item.
  * @param {string} itemId
  */
+function bindPatientsSearch() {
+  const searchInput = document.querySelector("[data-patients-search]");
+  if (!searchInput) return;
+
+  const rows = Array.from(document.querySelectorAll("[data-patient-name]"));
+  if (!rows.length) return;
+
+  searchInput.addEventListener(
+    "input",
+    (event) => {
+      const query = event.target.value.trim().toLowerCase();
+      rows.forEach((row) => {
+        const name = row.dataset.patientName?.toLowerCase() || "";
+        row.style.display = name.includes(query) ? "" : "none";
+      });
+    },
+    { once: false }
+  );
+}
+
 function updateMainContent(itemId) {
   const main = document.getElementById("main-content");
   if (!main) return;
@@ -284,6 +306,7 @@ function updateMainContent(itemId) {
   const renderPage = PAGE_RENDERERS[itemId];
   if (renderPage) {
     main.outerHTML = renderPage();
+    bindPatientsSearch();
     return;
   }
 

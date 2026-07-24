@@ -1,15 +1,22 @@
 /* ── Card ── */
 .card {
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-border);
+  background: rgba(20, 20, 22, 0.6);
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--card-radius);
   padding: var(--card-padding);
   box-shadow: var(--shadow-sm);
-  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition:
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    transform var(--transition-base);
 }
 
-.card:hover {
+.card:not(.table-card):not(.kpi-card):hover {
   border-color: var(--color-border-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 .card--ghost {

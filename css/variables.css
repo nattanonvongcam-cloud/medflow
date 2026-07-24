@@ -88,7 +88,7 @@
 
   /* Component tokens */
   --card-padding: var(--space-6);
-  --card-radius: var(--radius-xl);
+  --card-radius: var(--radius-2xl);
   --input-height: 2.5rem;
   --nav-item-height: 2.25rem;
 }
