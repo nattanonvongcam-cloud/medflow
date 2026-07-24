@@ -4,7 +4,7 @@
  */
 
 import { icons } from "../mock-data.js";
-import { getAllPatients, searchPatients, insertPatient } from "../db/queries.js";
+import { getAllPatients, searchPatients, insertPatient, updatePatientStatus } from "../db/queries.js";
 
 const STATUS_BADGE_MAP = {
   critical: "badge--critical",
@@ -31,7 +31,16 @@ function renderPatientRow(patient) {
         <td class="table-cell">${patient.age} / ${patient.gender}</td>
         <td class="table-cell">${patient.diagnosis}</td>
         <td class="table-cell">${patient.assigned_doctor}</td>
-        <td class="table-cell">${renderStatusBadge(patient.status)}</td>
+        <td class="table-cell">
+          <label class="input input--inline">
+            <span class="sr-only">Status for ${patient.name}</span>
+            <select class="input__field patient-status-select" data-patient-status-select data-patient-id="${patient.id}">
+              <option value="stable" ${patient.status === "stable" ? "selected" : ""}>Stable</option>
+              <option value="monitoring" ${patient.status === "monitoring" ? "selected" : ""}>Monitoring</option>
+              <option value="critical" ${patient.status === "critical" ? "selected" : ""}>Critical</option>
+            </select>
+          </label>
+        </td>
         <td class="table-cell">${patient.room}</td>
         <td class="table-cell table-cell--secondary">${patient.admitted_date}</td>
       </tr>
@@ -179,9 +188,24 @@ async function handlePatientFormSubmit(event) {
   await loadPatients(document.querySelector("[data-patients-search]")?.value || "");
 }
 
+async function handlePatientStatusChange(event) {
+  const target = event.target;
+  if (!(target instanceof HTMLSelectElement) || !target.matches("[data-patient-status-select]")) {
+    return;
+  }
+
+  const patientId = target.dataset.patientId;
+  const status = target.value;
+  if (!patientId) return;
+
+  await updatePatientStatus(patientId, status);
+  await loadPatients(document.querySelector("[data-patients-search]")?.value || "");
+}
+
 export async function initPatientsPage() {
   const searchInput = document.querySelector("[data-patients-search]");
   const form = document.querySelector("[data-patient-form]");
+  const tableBody = document.getElementById("patients-table-body");
 
   if (searchInput) {
     searchInput.addEventListener("input", async (event) => {
@@ -191,6 +215,10 @@ export async function initPatientsPage() {
 
   if (form) {
     form.addEventListener("submit", handlePatientFormSubmit);
+  }
+
+  if (tableBody) {
+    tableBody.addEventListener("change", handlePatientStatusChange);
   }
 
   await loadPatients();

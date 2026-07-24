@@ -53,6 +53,16 @@ export async function insertPatient(patient) {
   stmt.free();
 }
 
+export async function updatePatientStatus(id, status) {
+  const now = new Date().toISOString();
+  const stmt = await prepare(
+    `UPDATE patients SET status = ?, last_updated = ? WHERE id = ?`,
+    [status, now, id]
+  );
+  stmt.step();
+  stmt.free();
+}
+
 export async function getDoctorAppointments() {
   const stmt = await prepare(
     `SELECT a.id,
